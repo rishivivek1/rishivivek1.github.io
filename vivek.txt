@@ -8,4 +8,4 @@ I find myself as a geek in customizing computer related stuffs and spending hour
 I <3 opensource and try to contribute as much as i can and also sometimes participate in movements to keep the web open. 
 It fascinates me seeing how my codes influence real life of the people. 
 
-<a href=/mysite/inner><font color="blue"><bold>Click here<bold></font></a> to know more about me.
+<a href=/inner><font color="blue"><bold>Click here<bold></font></a> to know more about me.
