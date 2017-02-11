@@ -1,0 +1,11 @@
+﻿<a>Vivek@Kumar:~$</a>cat vivek.txt
+
+I am an undergraduate Computer Science student at<a target= "_blank" href=https://hithaldia.co.in><font color="red"> Haldia Institute of Technology</font></a>(ranked as 91 in top 100 engineering institutes by Times of India) people also know me by my irc nick <bold><font color =”red”>rishivivek</font></bold>.
+
+
+I find myself as a geek in customizing computer related stuffs and spending hours over my laptop.
+ 
+I <3 opensource and try to contribute as much as i can and also sometimes participate in movements to keep the web open. 
+It fascinates me seeing how my codes influence real life of the people. 
+
+<a href=/mysite/inner><font color="blue"><bold>Click here<bold></font></a> to know more about me.
