@@ -1,0 +1,37 @@
+.md-footer-meta__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.md-copyright {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  font-size: 0;
+}
+
+.md-copyright__highlight {
+  order: 3;
+  display: inline;
+  margin: 0;
+  font-size: 0.7rem;
+}
+
+.md-copyright a {
+  order: 2;
+  font-size: 0.7rem;
+}
+
+.md-copyright::before {
+  content: "Made with";
+  order: 1;
+  font-size: 0.7rem;
+}
+
+.md-copyright__highlight::before {
+  content: " | ";
+}
