@@ -601,6 +601,25 @@
 </code></pre></div>
 </details>
 <p><strong>Why it works:</strong> Instead of hoping GPT gives you the right format, you're handing it a blueprint.</p>
+<details class="example">
+<summary>Try this — Copy and paste into ChatGPT <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 21H8V7h11m0-2H8a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h11a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2m-3-4H4a2 2 0 0 0-2 2v14h2V3h12z"/></svg></span></summary>
+<div class="highlight"><pre><span></span><code>&lt;output_contract&gt;
+- Return exactly 3 sections: Summary, Key Findings, Action Items.
+- Summary: max 3 sentences.
+- Key Findings: bullet list, max 5 items.
+- Action Items: numbered list with owner and deadline.
+- Do not add any other sections.
+&lt;/output_contract&gt;
+
+&lt;verbosity_controls&gt;
+- No filler. No repeating my question back to me.
+- Keep it dense and useful.
+&lt;/verbosity_controls&gt;
+
+Here are my meeting notes from today&#39;s product review:
+[paste your notes here]
+</code></pre></div>
+</details>
 <hr />
 <h3 id="2-follow-through-policy-stop-asking-just-do-it">2. Follow-Through Policy — "Stop Asking, Just Do It"</h3>
 <p>Ever had a friend who asks "Should I pass the salt?" when you're clearly reaching for it? That's GPT without this rule. It keeps asking for permission on obvious things. This tag tells it: if it's safe and reversible, just go ahead.</p>
@@ -617,6 +636,20 @@
 </code></pre></div>
 </details>
 <p><strong>Why it works:</strong> You get flow instead of a Q&amp;A session.</p>
+<details class="example">
+<summary>Try this — Copy and paste into ChatGPT <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 21H8V7h11m0-2H8a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h11a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2m-3-4H4a2 2 0 0 0-2 2v14h2V3h12z"/></svg></span></summary>
+<div class="highlight"><pre><span></span><code>&lt;default_follow_through_policy&gt;
+- If my intent is clear and the next step is reversible, just do it.
+- Only ask me if something is irreversible, costs money, or you&#39;re missing critical info.
+- After doing something, briefly tell me what you did.
+&lt;/default_follow_through_policy&gt;
+
+I have a Python script that reads a CSV and outputs a chart.
+The chart title is wrong, the axis labels are missing,
+and the colors are ugly. Fix all of it.
+</code></pre></div>
+<p>Without this tag, GPT would ask: "Should I fix the title first? What colors do you prefer? What labels do you want?" With it, GPT just fixes everything and tells you what it changed.</p>
+</details>
 <hr />
 <h3 id="3-instruction-priority-my-latest-instruction-wins">3. Instruction Priority — "My Latest Instruction Wins"</h3>
 <p>Mid-conversation, you might say "Actually, make it shorter" or "Switch to bullet points." Without this rule, GPT gets confused about which instruction to follow. This sorts it out.</p>
@@ -644,6 +677,30 @@ All<span class="w"> </span>earlier<span class="w"> </span>instructions<span clas
 </code></pre></div>
 </details>
 <p><strong>Why it works:</strong> It's like telling a group project partner: "Ignore what I said in the morning, here's the new plan — but everything else stays the same."</p>
+<details class="example">
+<summary>Try this — Copy and paste into ChatGPT <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 21H8V7h11m0-2H8a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h11a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2m-3-4H4a2 2 0 0 0-2 2v14h2V3h12z"/></svg></span></summary>
+<p>Start a conversation with this system prompt:</p>
+<div class="highlight"><pre><span></span><code>&lt;instruction_priority&gt;
+- My latest instruction always wins over earlier ones.
+- Safety and honesty rules never change.
+- Keep everything else I said before unless I specifically override it.
+&lt;/instruction_priority&gt;
+
+You are a marketing copywriter. Write in a casual, witty tone.
+All outputs should be under 100 words.
+</code></pre></div>
+<p>Then mid-conversation, say:</p>
+<div class="highlight"><pre><span></span><code>&lt;task_update&gt;
+For the next response only:
+- Switch to formal tone.
+- Ignore the 100-word limit — go up to 300 words.
+Everything else still applies.
+&lt;/task_update&gt;
+
+Write the product description for our enterprise security tool.
+</code></pre></div>
+<p>GPT writes one formal 300-word response, then automatically goes back to casual and short for the next message.</p>
+</details>
 <hr />
 <h3 id="4-tool-persistence-dont-skip-steps">4. Tool Persistence — "Don't Skip Steps"</h3>
 <p>This is GPT-5.4's <em>biggest weakness</em>. It sees the finish line and sprints past all the prep work. Imagine a student who writes the conclusion of a lab report without actually doing the experiment. This tag forces it to do every step.</p>
@@ -677,6 +734,25 @@ All<span class="w"> </span>earlier<span class="w"> </span>instructions<span clas
 </code></pre></div>
 </details>
 <p><strong>Why it works:</strong> Forces GPT to "show its work" step by step instead of jumping to conclusions.</p>
+<details class="example">
+<summary>Try this — Copy and paste into a coding agent (Cursor, Copilot, etc.) <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 21H8V7h11m0-2H8a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h11a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2m-3-4H4a2 2 0 0 0-2 2v14h2V3h12z"/></svg></span></summary>
+<div class="highlight"><pre><span></span><code>&lt;tool_persistence_rules&gt;
+- Use tools whenever they improve correctness.
+- Don&#39;t stop until the task is complete AND verification passes.
+- If a search returns nothing, try a different query before giving up.
+&lt;/tool_persistence_rules&gt;
+
+&lt;dependency_checks&gt;
+- Before making changes, check what files depend on the thing I&#39;m changing.
+- Don&#39;t skip the lookup just because the fix seems obvious.
+&lt;/dependency_checks&gt;
+
+Rename the function `getUserData` to `fetchUserProfile` across
+the entire codebase. Make sure every import, every test file,
+and every reference is updated — not just the definition.
+</code></pre></div>
+<p>Without these tags, GPT might rename the function definition and a few obvious references, then say "Done!" — missing 5 test files and 2 imports. With the tags, it searches everywhere first, builds the full list, then makes all the changes.</p>
+</details>
 <hr />
 <h3 id="5-completeness-contract-dont-say-done-until-its-actually-done">5. Completeness Contract — "Don't Say Done Until It's Actually Done"</h3>
 <p>Processing a list of 20 items? GPT might do 15 and call it a day. This tag is your insurance policy — it forces GPT to track progress like a checklist.</p>
@@ -706,6 +782,30 @@ If<span class="w"> </span>a<span class="w"> </span>lookup<span class="w"> </span
 </code></pre></div>
 </details>
 <p><strong>Why it works:</strong> Like telling a student "Check off each question before submitting the test."</p>
+<details class="example">
+<summary>Try this — Copy and paste into ChatGPT <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 21H8V7h11m0-2H8a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h11a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2m-3-4H4a2 2 0 0 0-2 2v14h2V3h12z"/></svg></span></summary>
+<div class="highlight"><pre><span></span><code>&lt;completeness_contract&gt;
+- Don&#39;t say you&#39;re done until every company on the list is covered.
+- If you can&#39;t find data for one, mark it [blocked] and say what&#39;s missing.
+- Track your progress as you go.
+&lt;/completeness_contract&gt;
+
+&lt;empty_result_recovery&gt;
+- If a search comes back empty, try different keywords before giving up.
+- Try at least 2 alternate approaches.
+&lt;/empty_result_recovery&gt;
+
+Research these 10 companies and give me each one&#39;s:
+- Founded year
+- CEO name
+- Latest funding round
+- Employee count (approximate)
+
+Companies: Stripe, Notion, Linear, Vercel, Supabase,
+Railway, Resend, Cal.com, Trigger.dev, Inngest
+</code></pre></div>
+<p>Without the completeness contract, GPT might cover 7 out of 10 and stop. With it, GPT tracks each company like a checklist and flags any gaps.</p>
+</details>
 <hr />
 <h3 id="6-verification-loop-double-check-before-submitting">6. Verification Loop — "Double-Check Before Submitting"</h3>
 <p>This is the most important pattern in the entire guide. Before GPT gives you the final answer or takes a real-world action (like sending an email), it runs through a quick self-check.</p>
@@ -737,6 +837,28 @@ Before<span class="w"> </span>finalizing:
 </code></pre></div>
 </details>
 <p><strong>Why it works:</strong> It's the "re-read your answer before turning in the exam" rule — but for AI.</p>
+<details class="example">
+<summary>Try this — Copy and paste into ChatGPT <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 21H8V7h11m0-2H8a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h11a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2m-3-4H4a2 2 0 0 0-2 2v14h2V3h12z"/></svg></span></summary>
+<div class="highlight"><pre><span></span><code>&lt;verification_loop&gt;
+Before giving me your final answer:
+- Does it cover all 4 sections I asked for?
+- Are all facts backed by sources you actually found (not made up)?
+- Is the format exactly what I requested (markdown table)?
+- If anything could have real-world consequences, flag it.
+&lt;/verification_loop&gt;
+
+&lt;missing_context_gating&gt;
+- If you&#39;re not sure about something, say so. Don&#39;t guess.
+- Label any assumptions clearly.
+&lt;/missing_context_gating&gt;
+
+Compare AWS Lambda vs Google Cloud Functions vs Azure Functions.
+Give me a markdown table with: cold start time, max execution time,
+free tier limits, supported languages, and pricing per million invocations.
+Only use current 2026 pricing — don&#39;t guess old numbers.
+</code></pre></div>
+<p>The verification loop forces GPT to self-audit before responding. If it can't find 2026 pricing for one service, it says "I couldn't verify this" instead of quietly making up a number.</p>
+</details>
 <hr />
 <h3 id="7-research-mode-plan-search-then-write">7. Research Mode — "Plan, Search, Then Write"</h3>
 <p>When you need GPT to research a topic, don't just say "research X." Give it a 3-step process: first plan what to look for, then actually search, then combine everything into one answer.</p>
@@ -766,6 +888,33 @@ Before<span class="w"> </span>finalizing:
 </code></pre></div>
 </details>
 <p><strong>Why it works:</strong> It's the difference between a student who Googles once and writes, vs one who makes an outline, reads 5 sources, and then writes. The second one always gets better grades.</p>
+<details class="example">
+<summary>Try this — Copy and paste into ChatGPT (with web search enabled) <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 21H8V7h11m0-2H8a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h11a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2m-3-4H4a2 2 0 0 0-2 2v14h2V3h12z"/></svg></span></summary>
+<div class="highlight"><pre><span></span><code>&lt;research_mode&gt;
+Do this in 3 steps:
+1) Plan: list 4-5 sub-questions you need to answer.
+2) Search: look up each sub-question. Follow 1-2 promising leads.
+3) Synthesize: combine everything into one answer with citations.
+Stop only when more searching won&#39;t change your conclusion.
+&lt;/research_mode&gt;
+
+&lt;citation_rules&gt;
+- Only cite sources you actually found and read.
+- Never make up a URL or reference.
+- Put the citation next to the specific claim it supports.
+&lt;/citation_rules&gt;
+
+&lt;grounding_rules&gt;
+- If two sources disagree, tell me both sides.
+- If you&#39;re not sure, say &quot;this is my inference&quot; — don&#39;t present it as fact.
+&lt;/grounding_rules&gt;
+
+Research: What is the current state of humanoid robotics in manufacturing?
+Who are the top 5 companies, what stage are they at,
+and what&#39;s the realistic timeline for warehouse deployment?
+</code></pre></div>
+<p>Instead of giving you one shallow summary, GPT plans its research, searches methodically, follows leads, and produces a cited, multi-source answer with clearly labeled inferences.</p>
+</details>
 <hr />
 <h3 id="8-structured-output-lock-give-me-just-the-data-nothing-else">8. Structured Output Lock — "Give Me Just the Data, Nothing Else"</h3>
 <p>When you need GPT to output code, JSON, SQL, or any machine-readable format — it sometimes wraps it in explanations you didn't ask for. This locks it down.</p>
@@ -781,6 +930,24 @@ Before<span class="w"> </span>finalizing:
 </code></pre></div>
 </details>
 <p><strong>Why it works:</strong> You asked for a spreadsheet, not a spreadsheet with a cover letter.</p>
+<details class="example">
+<summary>Try this — Copy and paste into ChatGPT <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 21H8V7h11m0-2H8a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h11a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2m-3-4H4a2 2 0 0 0-2 2v14h2V3h12z"/></svg></span></summary>
+<div class="highlight"><pre><span></span><code>&lt;structured_output_contract&gt;
+- Output ONLY valid JSON. No explanations before or after.
+- No markdown code fences.
+- Don&#39;t invent fields I didn&#39;t ask for.
+- If something is missing, return a JSON error object instead of guessing.
+&lt;/structured_output_contract&gt;
+
+Convert this product list into JSON:
+
+Name: Wireless Mouse, Price: $29.99, Stock: 145, Category: Electronics
+Name: Standing Desk, Price: $449.00, Stock: 23, Category: Furniture
+Name: USB-C Hub, Price: $39.99, Stock: 0, Category: Electronics
+Name: Monitor Arm, Price: $89.99, Stock: 67, Category: Furniture
+</code></pre></div>
+<p>Without this tag, GPT might say "Here's the JSON:" followed by an explanation, wrapped in markdown fences, and maybe add extra fields like <code>id</code> or <code>createdAt</code> that you never asked for. With the tag, you get clean, raw JSON — nothing else.</p>
+</details>
 <hr />
 <h2 id="the-reasoning-effort-dial-less-is-often-more">The Reasoning Effort Dial — Less Is Often More</h2>
 <p>Here's the thing nobody expects: <strong>making GPT "think harder" doesn't always make it smarter.</strong> OpenAI themselves say most people should stick to <code>none</code> through <code>medium</code>.</p>
@@ -1117,7 +1284,7 @@ Unless<span class="w"> </span>the<span class="w"> </span>user<span class="w"> </
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": [], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["content.code.copy"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
       <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
