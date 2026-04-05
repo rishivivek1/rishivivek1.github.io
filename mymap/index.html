@@ -628,7 +628,7 @@
 .city-flyout {
     display: none;
     position: fixed;
-    width: 230px;
+    width: min(230px, 50vw);
     max-height: 50vh;
     overflow-y: auto;
     background: var(--md-default-bg-color);
@@ -686,51 +686,78 @@
     border-radius: 8px;
     box-shadow: 0 6px 20px rgba(0,0,0,0.2);
     pointer-events: none;
-    animation: noteIn 0.12s ease-out;
 }
 .note-tooltip.visible {
     display: block;
+    animation: noteIn 0.12s ease-out;
 }
 .note-tooltip::after {
     content: "";
     position: absolute;
-    top: 50%;
-    right: -5px;
-    transform: translateY(-50%);
     border: 5px solid transparent;
+}
+.note-tooltip.arrow-r::after {
+    top: 50%; right: -5px; transform: translateY(-50%);
     border-left-color: var(--md-primary-fg-color);
 }
+.note-tooltip.arrow-l::after {
+    top: 50%; left: -5px; transform: translateY(-50%);
+    border-right-color: var(--md-primary-fg-color);
+}
+.note-tooltip.arrow-b::after {
+    bottom: -5px; left: 50%; transform: translateX(-50%);
+    border-top-color: var(--md-primary-fg-color);
+}
 @keyframes noteIn {
-    from { opacity: 0; transform: translateX(4px); }
-    to { opacity: 1; transform: translateX(0); }
+    from { opacity: 0; }
+    to { opacity: 1; }
 }
 .list-item-hidden {
     display: none;
 }
 @media (max-width: 768px) {
     .travel-stats {
-        gap: 0.75rem;
+        gap: 0.5rem;
     }
     .stat-card {
-        padding: 1rem 0.5rem;
+        padding: 0.75rem 0.35rem;
     }
     .stat-number {
-        font-size: 1.8rem;
+        font-size: 1.5rem;
     }
     .stat-label {
-        font-size: 0.7rem;
+        font-size: 0.6rem;
     }
     .stat-icon {
-        font-size: 1.4rem;
+        font-size: 1.2rem;
     }
     .travel-content {
+        width: 95vw;
         min-height: auto;
     }
     .map-section {
-        min-height: 400px;
+        min-height: 350px;
     }
     .list-panel {
-        width: 340px;
+        width: min(280px, 80vw);
+    }
+    .city-flyout {
+        width: min(210px, 55vw);
+    }
+    .note-tooltip {
+        max-width: min(220px, 60vw);
+    }
+}
+@media (max-width: 480px) {
+    .travel-stats {
+        flex-wrap: wrap;
+        gap: 0.5rem;
+    }
+    .stat-card {
+        flex: 1 1 40%;
+    }
+    .list-panel {
+        width: min(260px, 85vw);
     }
 }
 </style>
@@ -813,6 +840,11 @@ document.addEventListener('DOMContentLoaded', function() {
     var activeCityItem = null;
     var tooltip = document.getElementById('note-tooltip');
     var tipTimer = null;
+    var activeNoteEl = null;
+    var isTouchDevice = 'ontouchstart' in window;
+    var PAD = 8;
+
+    function clamp(val, min, max) { return Math.max(min, Math.min(val, max)); }
 
     function animateCount(el, target) {
         if (!el) return;
@@ -880,13 +912,13 @@ document.addEventListener('DOMContentLoaded', function() {
         setupFlyoutListeners();
     }
 
-    /* --- Flyout (city → places) --- */
+    /* --- Flyout (city → places) — always to the left, clamped --- */
     function showFlyout(cityItem) {
         var cityName = cityItem.getAttribute('data-city');
         var places = cityDataMap[cityName];
         if (!places) return;
 
-        if (activeCityItem) activeCityItem.classList.remove('flyout-active');
+        if (activeCityItem && activeCityItem !== cityItem) activeCityItem.classList.remove('flyout-active');
         activeCityItem = cityItem;
         cityItem.classList.add('flyout-active');
 
@@ -898,23 +930,39 @@ document.addEventListener('DOMContentLoaded', function() {
             flyoutUl.appendChild(li);
         });
 
+        flyout.style.left = ''; flyout.style.right = '';
+        flyout.classList.add('visible');
+
         var rect = cityItem.getBoundingClientRect();
         var panelLeft = document.getElementById('list-panel').getBoundingClientRect().left;
-
-        flyout.classList.add('visible');
+        var flyW = flyout.offsetWidth;
         var flyH = flyout.offsetHeight;
-        var top = rect.top;
-        if (top + flyH > window.innerHeight - 8) top = window.innerHeight - flyH - 8;
-        if (top < 8) top = 8;
+        var vw = window.innerWidth;
+        var vh = window.innerHeight;
+
+        var top = clamp(rect.top, PAD, vh - flyH - PAD);
+        var left = panelLeft - flyW - 8;
+        if (left < PAD) left = PAD;
+
         flyout.style.top = top + 'px';
-        flyout.style.right = (window.innerWidth - panelLeft + 6) + 'px';
+        flyout.style.left = left + 'px';
+    }
+
+    function toggleFlyout(cityItem) {
+        if (activeCityItem === cityItem && flyout.classList.contains('visible')) {
+            closeFlyout(); return;
+        }
+        cancelHide();
+        showFlyout(cityItem);
+    }
+
+    function closeFlyout() {
+        flyout.classList.remove('visible');
+        if (activeCityItem) { activeCityItem.classList.remove('flyout-active'); activeCityItem = null; }
     }
 
     function hideFlyout() {
-        flyoutTimer = setTimeout(function() {
-            flyout.classList.remove('visible');
-            if (activeCityItem) { activeCityItem.classList.remove('flyout-active'); activeCityItem = null; }
-        }, 80);
+        flyoutTimer = setTimeout(closeFlyout, 80);
     }
     function cancelHide() { if (flyoutTimer) { clearTimeout(flyoutTimer); flyoutTimer = null; } }
 
@@ -925,31 +973,57 @@ document.addEventListener('DOMContentLoaded', function() {
         document.querySelectorAll('.city-item.has-places').forEach(function(item) {
             item.addEventListener('mouseenter', function() { cancelHide(); showFlyout(item); });
             item.addEventListener('mouseleave', hideFlyout);
+            item.addEventListener('click', function(e) {
+                e.stopPropagation();
+                toggleFlyout(item);
+            });
         });
     }
 
-    /* --- Note tooltip (place → note) --- */
+    /* --- Note tooltip — position to the left, fallback right, fallback above --- */
     function showNote(el) {
         var note = el.getAttribute('data-note');
         if (!note) return;
         if (tipTimer) { clearTimeout(tipTimer); tipTimer = null; }
+        activeNoteEl = el;
+
         tooltip.textContent = note;
-        tooltip.classList.add('visible');
+        tooltip.className = 'note-tooltip visible';
+        tooltip.style.left = ''; tooltip.style.top = '';
 
         var rect = el.getBoundingClientRect();
         var tipW = tooltip.offsetWidth;
         var tipH = tooltip.offsetHeight;
-        var left = rect.left - tipW - 10;
-        if (left < 8) left = rect.right + 10;
-        var top = rect.top + (rect.height - tipH) / 2;
-        if (top + tipH > window.innerHeight - 8) top = window.innerHeight - tipH - 8;
-        if (top < 8) top = 8;
+        var vw = window.innerWidth;
+        var vh = window.innerHeight;
+
+        var left, top, arrow;
+
+        if (rect.left - tipW - 12 >= PAD) {
+            left = rect.left - tipW - 12;
+            top = clamp(rect.top + (rect.height - tipH) / 2, PAD, vh - tipH - PAD);
+            arrow = 'arrow-r';
+        } else if (rect.right + tipW + 12 <= vw - PAD) {
+            left = rect.right + 12;
+            top = clamp(rect.top + (rect.height - tipH) / 2, PAD, vh - tipH - PAD);
+            arrow = 'arrow-l';
+        } else {
+            left = clamp(rect.left + (rect.width - tipW) / 2, PAD, vw - tipW - PAD);
+            top = rect.top - tipH - 10;
+            if (top < PAD) top = rect.bottom + 10;
+            arrow = 'arrow-b';
+        }
+
+        tooltip.classList.add(arrow);
         tooltip.style.top = top + 'px';
         tooltip.style.left = left + 'px';
     }
 
     function hideNote() {
-        tipTimer = setTimeout(function() { tooltip.classList.remove('visible'); }, 60);
+        tipTimer = setTimeout(function() {
+            tooltip.className = 'note-tooltip';
+            activeNoteEl = null;
+        }, 60);
     }
 
     document.addEventListener('mouseover', function(e) {
@@ -986,9 +1060,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
     /* --- Panel open/close --- */
     function closePanel() {
-        flyout.classList.remove('visible');
-        tooltip.classList.remove('visible');
-        if (activeCityItem) { activeCityItem.classList.remove('flyout-active'); activeCityItem = null; }
+        closeFlyout();
+        tooltip.className = 'note-tooltip';
+        activeNoteEl = null;
         var p = document.getElementById('list-panel');
         if (p) p.classList.remove('visible');
         document.querySelectorAll('.stat-card').forEach(function(c) { c.classList.remove('active'); });
@@ -998,6 +1072,7 @@ document.addEventListener('DOMContentLoaded', function() {
     document.addEventListener('click', function(e) {
         var closeBtn = e.target.closest('#close-panel-btn');
         if (closeBtn) { e.preventDefault(); closePanel(); return; }
+
         var card = e.target.closest('.stat-card');
         if (card) {
             var type = card.getAttribute('data-list');
@@ -1010,6 +1085,21 @@ document.addEventListener('DOMContentLoaded', function() {
             if (list) list.classList.remove('list-item-hidden');
             var p = document.getElementById('list-panel');
             if (p) p.classList.add('visible');
+            return;
+        }
+
+        var noted = e.target.closest('[data-note]');
+        if (noted) {
+            if (activeNoteEl === noted && tooltip.classList.contains('visible')) {
+                hideNote();
+            } else {
+                showNote(noted);
+            }
+            return;
+        }
+
+        if (!e.target.closest('.list-panel') && !e.target.closest('.city-flyout') && !e.target.closest('.note-tooltip')) {
+            closePanel();
         }
     });
 });
