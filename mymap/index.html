@@ -569,6 +569,141 @@
     color: var(--md-primary-fg-color);
     font-weight: bold;
 }
+.list-panel li[data-note] {
+    cursor: help;
+}
+.list-panel li[data-note]::after {
+    content: "✦";
+    font-size: 0.5rem;
+    color: var(--md-primary-fg-color);
+    opacity: 0.5;
+    margin-left: auto;
+}
+.list-panel .city-item {
+    display: block;
+    padding: 0;
+}
+.list-panel .city-item::before {
+    content: none;
+}
+.list-panel .city-item[title]::after {
+    content: none;
+}
+.list-panel .city-header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.4rem 0.6rem;
+    border-radius: 8px;
+    transition: background 0.2s;
+    font-size: 0.85rem;
+    cursor: default;
+}
+.list-panel .city-header::before {
+    content: "•";
+    color: var(--md-primary-fg-color);
+    font-weight: bold;
+}
+.list-panel .city-item:hover > .city-header,
+.list-panel .city-item.flyout-active > .city-header {
+    background: var(--md-default-fg-color--lightest);
+}
+.city-count {
+    font-size: 0.7rem;
+    color: var(--md-default-fg-color--light);
+    opacity: 0.6;
+    font-weight: 600;
+    margin-left: auto;
+}
+.city-header.has-note {
+    cursor: help;
+}
+.city-header.has-note::after {
+    content: "✦";
+    font-size: 0.5rem;
+    color: var(--md-primary-fg-color);
+    opacity: 0.5;
+    margin-left: auto;
+}
+.city-flyout {
+    display: none;
+    position: fixed;
+    width: 230px;
+    max-height: 50vh;
+    overflow-y: auto;
+    background: var(--md-default-bg-color);
+    border: 1px solid var(--md-default-fg-color--lightest);
+    border-radius: 10px;
+    box-shadow: -6px 4px 24px rgba(0,0,0,0.18);
+    padding: 0.5rem 0.25rem;
+    z-index: 300;
+}
+.city-flyout.visible {
+    display: block;
+}
+.city-flyout ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+.city-flyout li {
+    font-size: 0.8rem;
+    padding: 0.35rem 0.6rem;
+    border-radius: 6px;
+    transition: background 0.15s;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+.city-flyout li:hover {
+    background: var(--md-default-fg-color--lightest);
+}
+.city-flyout li::before {
+    content: "›";
+    color: var(--md-primary-fg-color);
+    font-weight: normal;
+}
+.city-flyout li[data-note] {
+    cursor: help;
+}
+.city-flyout li[data-note]::after {
+    content: "✦";
+    font-size: 0.5rem;
+    color: var(--md-primary-fg-color);
+    opacity: 0.5;
+    margin-left: auto;
+}
+.note-tooltip {
+    display: none;
+    position: fixed;
+    z-index: 400;
+    max-width: 260px;
+    padding: 0.55rem 0.75rem;
+    background: var(--md-primary-fg-color);
+    color: #fff;
+    font-size: 0.78rem;
+    line-height: 1.45;
+    border-radius: 8px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+    pointer-events: none;
+    animation: noteIn 0.12s ease-out;
+}
+.note-tooltip.visible {
+    display: block;
+}
+.note-tooltip::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    right: -5px;
+    transform: translateY(-50%);
+    border: 5px solid transparent;
+    border-left-color: var(--md-primary-fg-color);
+}
+@keyframes noteIn {
+    from { opacity: 0; transform: translateX(4px); }
+    to { opacity: 1; transform: translateX(0); }
+}
 .list-item-hidden {
     display: none;
 }
@@ -602,6 +737,11 @@
 
 <h1 id="my-travel-map"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M14 11.5A2.5 2.5 0 0 0 16.5 9 2.5 2.5 0 0 0 14 6.5 2.5 2.5 0 0 0 11.5 9a2.5 2.5 0 0 0 2.5 2.5M14 2c3.86 0 7 3.13 7 7 0 5.25-7 13-7 13S7 14.25 7 9a7 7 0 0 1 7-7M5 9c0 4.5 5.08 10.66 6 11.81L10 22S3 14.25 3 9c0-3.17 2.11-5.85 5-6.71C6.16 3.94 5 6.33 5 9"/></svg></span> My Travel Map</h1>
 <div class="travel-stats">
+    <div class="stat-card" data-list="places" id="card-places">
+        <div class="stat-icon">📍</div>
+        <div class="stat-number" id="count-places">0</div>
+        <div class="stat-label">Places Visited</div>
+    </div>
     <div class="stat-card" data-list="cities" id="card-cities">
         <div class="stat-icon">🏙️</div>
         <div class="stat-number" id="count-cities">0</div>
@@ -639,9 +779,16 @@
     </div>
 </div>
 
+<div class="city-flyout" id="city-flyout"><ul></ul></div>
+<div class="note-tooltip" id="note-tooltip"></div>
+
 <div class="list-panel" id="list-panel">
     <div class="list-panel-close">
         <button id="close-panel-btn" title="Close">✕</button>
+    </div>
+    <div id="list-places" class="travel-list list-item-hidden">
+        <h3>📍 Places Visited</h3>
+        <ul></ul>
     </div>
     <div id="list-cities" class="travel-list list-item-hidden">
         <h3>🏙️ Cities Visited</h3>
@@ -659,15 +806,13 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    var basePath = document.querySelector('link[rel="canonical"]');
-    var base = basePath ? basePath.href.replace(/[^/]*$/, '') : './';
-    if (!base.endsWith('/')) base += '/';
-
-    var config = {
-        cities:    { file: 'cities.json',    el: '#list-cities ul',    counter: 'count-cities' },
-        states:    { file: 'states.json',    el: '#list-states ul',    counter: 'count-states' },
-        countries: { file: 'countries.json', el: '#list-countries ul', counter: 'count-countries' }
-    };
+    var cityDataMap = {};
+    var flyout = document.getElementById('city-flyout');
+    var flyoutUl = flyout.querySelector('ul');
+    var flyoutTimer = null;
+    var activeCityItem = null;
+    var tooltip = document.getElementById('note-tooltip');
+    var tipTimer = null;
 
     function animateCount(el, target) {
         if (!el) return;
@@ -675,39 +820,175 @@ document.addEventListener('DOMContentLoaded', function() {
         var step = Math.max(1, Math.floor(target / 30));
         var interval = setInterval(function() {
             current += step;
-            if (current >= target) {
-                current = target;
-                clearInterval(interval);
-            }
+            if (current >= target) { current = target; clearInterval(interval); }
             el.textContent = current;
         }, 30);
     }
 
-    function buildList(items, ulSelector) {
+    function buildFlatList(items, ulSelector) {
         var ul = document.querySelector(ulSelector);
         if (!ul) return;
         ul.innerHTML = '';
-        items.forEach(function(name) {
+        items.forEach(function(item) {
             var li = document.createElement('li');
-            li.textContent = name;
+            if (typeof item === 'object' && item.name) {
+                li.textContent = item.name;
+                if (item.note) li.setAttribute('data-note', item.note);
+            } else {
+                li.textContent = item;
+            }
             ul.appendChild(li);
         });
     }
 
-    Object.keys(config).forEach(function(key) {
-        var c = config[key];
-        fetch(c.file)
-            .then(function(r) { return r.json(); })
-            .then(function(items) {
-                buildList(items, c.el);
-                animateCount(document.getElementById(c.counter), items.length);
-            })
-            .catch(function() {
-                animateCount(document.getElementById(c.counter), 0);
-            });
+    function buildGroupedList(data, ulSelector) {
+        var ul = document.querySelector(ulSelector);
+        if (!ul) return;
+        ul.innerHTML = '';
+        data.forEach(function(cityObj) {
+            cityDataMap[cityObj.city] = cityObj.places;
+            var li = document.createElement('li');
+            li.className = 'city-item';
+            var header = document.createElement('div');
+            header.className = 'city-header';
+            var nameSpan = document.createElement('span');
+            nameSpan.textContent = cityObj.city;
+            header.appendChild(nameSpan);
+
+            var isSingleSame = cityObj.places.length === 1
+                && cityObj.places[0].name === cityObj.city;
+
+            if (isSingleSame && cityObj.places[0].note) {
+                header.setAttribute('data-note', cityObj.places[0].note);
+                header.classList.add('has-note');
+            }
+
+            if (!isSingleSame) {
+                li.classList.add('has-places');
+                li.setAttribute('data-city', cityObj.city);
+                if (cityObj.places.length > 1) {
+                    var badge = document.createElement('span');
+                    badge.className = 'city-count';
+                    badge.textContent = cityObj.places.length;
+                    header.appendChild(badge);
+                }
+            }
+
+            li.appendChild(header);
+            ul.appendChild(li);
+        });
+        setupFlyoutListeners();
+    }
+
+    /* --- Flyout (city → places) --- */
+    function showFlyout(cityItem) {
+        var cityName = cityItem.getAttribute('data-city');
+        var places = cityDataMap[cityName];
+        if (!places) return;
+
+        if (activeCityItem) activeCityItem.classList.remove('flyout-active');
+        activeCityItem = cityItem;
+        cityItem.classList.add('flyout-active');
+
+        flyoutUl.innerHTML = '';
+        places.forEach(function(p) {
+            var li = document.createElement('li');
+            li.textContent = p.name;
+            if (p.note) li.setAttribute('data-note', p.note);
+            flyoutUl.appendChild(li);
+        });
+
+        var rect = cityItem.getBoundingClientRect();
+        var panelLeft = document.getElementById('list-panel').getBoundingClientRect().left;
+
+        flyout.classList.add('visible');
+        var flyH = flyout.offsetHeight;
+        var top = rect.top;
+        if (top + flyH > window.innerHeight - 8) top = window.innerHeight - flyH - 8;
+        if (top < 8) top = 8;
+        flyout.style.top = top + 'px';
+        flyout.style.right = (window.innerWidth - panelLeft + 6) + 'px';
+    }
+
+    function hideFlyout() {
+        flyoutTimer = setTimeout(function() {
+            flyout.classList.remove('visible');
+            if (activeCityItem) { activeCityItem.classList.remove('flyout-active'); activeCityItem = null; }
+        }, 80);
+    }
+    function cancelHide() { if (flyoutTimer) { clearTimeout(flyoutTimer); flyoutTimer = null; } }
+
+    flyout.addEventListener('mouseenter', cancelHide);
+    flyout.addEventListener('mouseleave', function() { hideFlyout(); hideNote(); });
+
+    function setupFlyoutListeners() {
+        document.querySelectorAll('.city-item.has-places').forEach(function(item) {
+            item.addEventListener('mouseenter', function() { cancelHide(); showFlyout(item); });
+            item.addEventListener('mouseleave', hideFlyout);
+        });
+    }
+
+    /* --- Note tooltip (place → note) --- */
+    function showNote(el) {
+        var note = el.getAttribute('data-note');
+        if (!note) return;
+        if (tipTimer) { clearTimeout(tipTimer); tipTimer = null; }
+        tooltip.textContent = note;
+        tooltip.classList.add('visible');
+
+        var rect = el.getBoundingClientRect();
+        var tipW = tooltip.offsetWidth;
+        var tipH = tooltip.offsetHeight;
+        var left = rect.left - tipW - 10;
+        if (left < 8) left = rect.right + 10;
+        var top = rect.top + (rect.height - tipH) / 2;
+        if (top + tipH > window.innerHeight - 8) top = window.innerHeight - tipH - 8;
+        if (top < 8) top = 8;
+        tooltip.style.top = top + 'px';
+        tooltip.style.left = left + 'px';
+    }
+
+    function hideNote() {
+        tipTimer = setTimeout(function() { tooltip.classList.remove('visible'); }, 60);
+    }
+
+    document.addEventListener('mouseover', function(e) {
+        var target = e.target.closest('[data-note]');
+        if (target) { showNote(target); return; }
+        hideNote();
     });
 
+    /* --- Data loading --- */
+    fetch('cities.json')
+        .then(function(r) { return r.json(); })
+        .then(function(data) {
+            buildGroupedList(data, '#list-cities ul');
+            animateCount(document.getElementById('count-cities'), data.length);
+            var allPlaces = [];
+            data.forEach(function(c) { c.places.forEach(function(p) { allPlaces.push(p); }); });
+            buildFlatList(allPlaces, '#list-places ul');
+            animateCount(document.getElementById('count-places'), allPlaces.length);
+        })
+        .catch(function() {
+            animateCount(document.getElementById('count-cities'), 0);
+            animateCount(document.getElementById('count-places'), 0);
+        });
+
+    ['states', 'countries'].forEach(function(key) {
+        fetch(key + '.json')
+            .then(function(r) { return r.json(); })
+            .then(function(items) {
+                buildFlatList(items, '#list-' + key + ' ul');
+                animateCount(document.getElementById('count-' + key), items.length);
+            })
+            .catch(function() { animateCount(document.getElementById('count-' + key), 0); });
+    });
+
+    /* --- Panel open/close --- */
     function closePanel() {
+        flyout.classList.remove('visible');
+        tooltip.classList.remove('visible');
+        if (activeCityItem) { activeCityItem.classList.remove('flyout-active'); activeCityItem = null; }
         var p = document.getElementById('list-panel');
         if (p) p.classList.remove('visible');
         document.querySelectorAll('.stat-card').forEach(function(c) { c.classList.remove('active'); });
@@ -716,22 +997,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
     document.addEventListener('click', function(e) {
         var closeBtn = e.target.closest('#close-panel-btn');
-        if (closeBtn) {
-            e.preventDefault();
-            closePanel();
-            return;
-        }
-
+        if (closeBtn) { e.preventDefault(); closePanel(); return; }
         var card = e.target.closest('.stat-card');
         if (card) {
             var type = card.getAttribute('data-list');
             if (!type) return;
-
-            if (card.classList.contains('active')) {
-                closePanel();
-                return;
-            }
-
+            if (card.classList.contains('active')) { closePanel(); return; }
             document.querySelectorAll('.stat-card').forEach(function(c) { c.classList.remove('active'); });
             document.querySelectorAll('.travel-list').forEach(function(l) { l.classList.add('list-item-hidden'); });
             card.classList.add('active');

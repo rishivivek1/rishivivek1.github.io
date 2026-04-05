@@ -1,21 +1,293 @@
 [
-  "Delhi",
-  "Bangalore",
-  "Hyderabad",
-  "Chennai",
-  "Kolkata",
-  "Pune",
-  "Jaipur",
-  "Jodhpur",
-  "Jaisalmer",
-  "Goa",
-  "Shimla",
-  "Manali",
-  "Mysore",
-  "Darjeeling",
-  "Sikkim",
-  "Lachung",
-  "Lachen",
-  "Kochi",
-"Coimbatore"
+  {
+    "city": "Alappuzha",
+    "places": [{"name": "Alappuzha", "note": ""}]
+  },
+  {
+    "city": "Asansol",
+    "places": [{"name": "Asansol", "note": ""}]
+  },
+  {
+    "city": "Bali",
+    "places": [
+      {"name": "Bali", "note": ""},
+      {"name": "Uluwatu Temple", "note": ""}
+    ]
+  },
+  {
+    "city": "Bengaluru",
+    "places": [{"name": "Bengaluru", "note": ""}]
+  },
+  {
+    "city": "Bhagalpur",
+    "places": [{"name": "Bhagalpur", "note": ""}]
+  },
+  {
+    "city": "Chikkamagaluru",
+    "places": [{"name": "Chikkamagaluru", "note": ""}]
+  },
+  {
+    "city": "Coimbatore",
+    "places": [
+      {"name": "Isha Yoga Center", "note": ""},
+      {"name": "Coimbatore", "note": ""}
+    ]
+  },
+  {
+    "city": "Dandeli",
+    "places": [{"name": "Dandeli", "note": ""}]
+  },
+  {
+    "city": "Darjeeling",
+    "places": [{"name": "Darjeeling", "note": ""}]
+  },
+  {
+    "city": "Denpasar",
+    "places": [{"name": "Denpasar", "note": ""}]
+  },
+  {
+    "city": "Deoghar",
+    "places": [{"name": "Deoghar", "note": ""}]
+  },
+  {
+    "city": "Dhanbad",
+    "places": [{"name": "Dhanbad", "note": ""}]
+  },
+  {
+    "city": "Digha",
+    "places": [{"name": "Digha", "note": ""}]
+  },
+  {
+    "city": "Gangtok",
+    "places": [{"name": "Gangtok", "note": ""}]
+  },
+  {
+    "city": "Goa",
+    "places": [{"name": "Goa", "note": ""}]
+  },
+  {
+    "city": "Gokarna",
+    "places": [{"name": "Gokarna", "note": ""}]
+  },
+  {
+    "city": "Guwahati",
+    "places": [{"name": "Guwahati", "note": ""}]
+  },
+  {
+    "city": "Haldia",
+    "places": [{"name": "Haldia", "note": ""}]
+  },
+  {
+    "city": "Hampi",
+    "places": [{"name": "Hampi", "note": ""}]
+  },
+  {
+    "city": "Havelock Island",
+    "places": [
+      {"name": "Kala Patthar Beach", "note": "Quiet place to sit across the beach"},
+      {"name": "Vijay Nagar Beach", "note": ""},
+      {"name": "Radhanagar Beach", "note": "Best beach, spend half day at least"}
+    ]
+  },
+  {
+    "city": "Hyderabad",
+    "places": [{"name": "Hyderabad", "note": ""}]
+  },
+  {
+    "city": "Jaipur",
+    "places": [{"name": "Jaipur", "note": ""}]
+  },
+  {
+    "city": "Jaisalmer",
+    "places": [
+      {"name": "Bawaliyanwala Indo-Pak Border", "note": ""},
+      {"name": "War Memorial in Longewala", "note": ""},
+      {"name": "Shri Tanot Mata Temple", "note": ""},
+      {"name": "Jaisalmer", "note": ""},
+      {"name": "Sam Sand Dunes", "note": ""},
+      {"name": "Kuldhara", "note": ""}
+    ]
+  },
+  {
+    "city": "Jodhpur",
+    "places": [{"name": "Jodhpur", "note": ""}]
+  },
+  {
+    "city": "Kahalgaon",
+    "places": [{"name": "Kahalgaon", "note": ""}]
+  },
+  {
+    "city": "Kochi",
+    "places": [{"name": "Kochi", "note": ""}]
+  },
+  {
+    "city": "Kolkata",
+    "places": [{"name": "Kolkata", "note": ""}]
+  },
+  {
+    "city": "Kota",
+    "places": [{"name": "Kota", "note": ""}]
+  },
+  {
+    "city": "Kullu",
+    "places": [{"name": "Kullu", "note": ""}]
+  },
+  {
+    "city": "Kumbhalgarh",
+    "places": [{"name": "Kumbhalgarh Fort", "note": ""}]
+  },
+  {
+    "city": "Kuta",
+    "places": [{"name": "Kuta", "note": ""}]
+  },
+  {
+    "city": "Lachen",
+    "places": [{"name": "Lachen", "note": ""}]
+  },
+  {
+    "city": "Lachung",
+    "places": [{"name": "Lachung", "note": ""}]
+  },
+  {
+    "city": "Lakhisarai",
+    "places": [{"name": "Lakhisarai", "note": ""}]
+  },
+  {
+    "city": "Lonavala",
+    "places": [{"name": "Lonavala", "note": ""}]
+  },
+  {
+    "city": "Madikeri",
+    "places": [{"name": "Madikeri", "note": ""}]
+  },
+  {
+    "city": "Manali",
+    "places": [
+      {"name": "Manali", "note": ""},
+      {"name": "Rohtang La", "note": ""}
+    ]
+  },
+  {
+    "city": "Mangalore",
+    "places": [{"name": "Bengre Beach", "note": ""}]
+  },
+  {
+    "city": "Munnar",
+    "places": [{"name": "Munnar", "note": ""}]
+  },
+  {
+    "city": "Mysuru",
+    "places": [
+      {"name": "Shree Chamundeshwari Devi Temple", "note": ""},
+      {"name": "Payana Car Museum", "note": ""},
+      {"name": "Mysuru", "note": ""}
+    ]
+  },
+  {
+    "city": "Nandi Hills",
+    "places": [
+      {"name": "Nandi Hills", "note": ""},
+      {"name": "Skandagiri Hills", "note": "Best sunrise place and easy trek that starts in dark 3AM"}
+    ]
+  },
+  {
+    "city": "Neil Island",
+    "places": [
+      {"name": "Bharatpur Beach", "note": "Place to relax by beach side and water sports"},
+      {"name": "Sitapur Beach", "note": "Sunrise view point"},
+      {"name": "Lakshmanpur Beach 1 - Mangroves", "note": "White pristine sand and night star gazing using telescope"},
+      {"name": "Natural Bridge 1", "note": "Good place for photography. Go in the second half before 4PM due to low tides"}
+    ]
+  },
+  {
+    "city": "Nusa Penida",
+    "places": [{"name": "Nusa Penida Island", "note": ""}]
+  },
+  {
+    "city": "Ooty",
+    "places": [{"name": "Ooty", "note": "Best place for couples and sight seeing. Always cold"}]
+  },
+  {
+    "city": "Patna",
+    "places": [{"name": "Patna", "note": ""}]
+  },
+  {
+    "city": "Port Blair",
+    "places": [
+      {"name": "SeaScape Port Blair", "note": "Good people and good hotel"},
+      {"name": "Corbyn's Cove Beach", "note": "Water activity at Andaman"},
+      {"name": "Munda Pahad Beach", "note": "Best scenic for photoshoot"},
+      {"name": "Chidiya Tapu Beach", "note": ""},
+      {"name": "Naval Marine Museum Samudrika", "note": ""},
+      {"name": "Cellular Jail", "note": ""},
+      {"name": "Veer Savarkar International Airport", "note": "Small airport for Andaman and Nicobar islands"}
+    ]
+  },
+  {
+    "city": "Puducherry",
+    "places": [
+      {"name": "Rock Beach", "note": ""},
+      {"name": "Puducherry", "note": ""}
+    ]
+  },
+  {
+    "city": "Pune",
+    "places": [{"name": "Pune", "note": ""}]
+  },
+  {
+    "city": "Purnia",
+    "places": [{"name": "Purnia", "note": ""}]
+  },
+  {
+    "city": "Ranchi",
+    "places": [{"name": "Ranchi", "note": ""}]
+  },
+  {
+    "city": "Shimla",
+    "places": [{"name": "Shimla", "note": ""}]
+  },
+  {
+    "city": "Sringeri",
+    "places": [
+      {"name": "Koodlutheertha Falls", "note": ""},
+      {"name": "Sirimane Falls", "note": ""},
+      {"name": "Shringeri Shree Sharadambe Devi Temple", "note": ""},
+      {"name": "Kundadri Hill", "note": ""}
+    ]
+  },
+  {
+    "city": "Sultanganj",
+    "places": [{"name": "Sultanganj", "note": ""}]
+  },
+  {
+    "city": "Thekkady",
+    "places": [{"name": "Periyar National Park", "note": ""}]
+  },
+  {
+    "city": "Ubud",
+    "places": [{"name": "Ubud", "note": ""}]
+  },
+  {
+    "city": "Udaipur",
+    "places": [{"name": "Udaipur", "note": ""}]
+  },
+  {
+    "city": "Udupi",
+    "places": [
+      {"name": "Kapu Beach", "note": ""},
+      {"name": "Malpe Beach", "note": ""},
+      {"name": "LN Beach Gujjarbettu", "note": ""},
+      {"name": "Bramavara", "note": ""},
+      {"name": "Kapu Light House", "note": ""},
+      {"name": "Shri Brahmi Durgaparameshwari Temple", "note": "Free prasadam"}
+    ]
+  },
+  {
+    "city": "Varkala",
+    "places": [{"name": "Varkala", "note": ""}]
+  },
+  {
+    "city": "Wayanad",
+    "places": [{"name": "Wayanad", "note": ""}]
+  }
 ]
